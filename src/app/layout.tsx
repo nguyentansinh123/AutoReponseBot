@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 import {
   ClerkProvider,
@@ -11,6 +13,7 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import ReactQueryProvider from "@/components/providers/ReactQueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,8 +31,17 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          <Navbar />
-          {children}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            disableTransitionOnChange
+          >
+            <ReactQueryProvider>
+              {/* <Navbar /> */}
+              {children}
+            </ReactQueryProvider>
+            <Toaster />
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
